@@ -1,4 +1,6 @@
-﻿namespace MathExpressionParser;
+﻿using MathExpressionParser.TokenDefinitions.Base;
+
+namespace MathExpressionParser;
 
 public interface IToken
 {
@@ -6,5 +8,5 @@ public interface IToken
 
     int Position { get; }
 
-    ITokenType Type { get; }
+    ITokenDefinition Definition { get; }
 }

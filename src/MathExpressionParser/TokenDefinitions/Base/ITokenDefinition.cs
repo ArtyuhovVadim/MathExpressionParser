@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace MathExpressionParser;
+namespace MathExpressionParser.TokenDefinitions.Base;
 
-public interface ITokenType
+public interface ITokenDefinition
 {
     string Name { get; }
 

@@ -1,24 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using MathExpressionParser.TokenDefinitions;
+using MathExpressionParser.TokenDefinitions.Base;
 
 namespace MathExpressionParser;
 
 public class MathParser
 {
-    private readonly List<ITokenType> _availableTokenTypes = new()
+    private readonly List<ITokenDefinition> _tokenDefinitions = new()
     {
-        new TokenType("Space", @"\s"),
+        new SpaceTokenDefinition(),
 
-        new TokenType("Number", @"[+-]?(\d*\.\d+|\d+\.\d*|\d+)"),
+        new NumberTokenDefinition(),
 
-        new TokenType("Plus", @"\+"),
-        new TokenType("Minus", @"\-"),
-        new TokenType("Multiply", @"\*"),
-        new TokenType("Divide", @"\/"),
+        new PlusTokenDefinition(),
+        new MinusTokenDefinition(),
+        new MultiplyTokenDefinition(),
+        new DivideTokenDefinition()
     };
 
     public double Parse(string input)
     {
-        var tokens = GenerateTokens(input);
+        var tokens = GenerateTokens(input).Where(x => x.Definition is not SpaceTokenDefinition).ToList();
 
         return double.NaN;
     }
@@ -32,13 +35,13 @@ public class MathParser
         {
             var matched = false;
 
-            foreach (var tokenType in _availableTokenTypes)
+            foreach (var tokenDefinition in _tokenDefinitions)
             {
-                var match = tokenType.Regex.Match(input, position);
+                var match = tokenDefinition.Regex.Match(input, position);
 
                 if (!match.Success) continue;
 
-                tokens.Add(new Token(match.Value, tokenType, position));
+                tokens.Add(new Token(match.Value, tokenDefinition, position));
 
                 position += match.Length;
                 matched = true;

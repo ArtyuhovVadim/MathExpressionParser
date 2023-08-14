@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace MathExpressionParser;
+namespace MathExpressionParser.TokenDefinitions.Base;
 
-public class TokenType : ITokenType
+public abstract class BaseTokenDefinition : ITokenDefinition
 {
-    public TokenType(string name, string regex)
+    protected BaseTokenDefinition(string name, string regex)
     {
         Name = name;
         Regex = new Regex(@"\G" + regex, RegexOptions.Compiled);
