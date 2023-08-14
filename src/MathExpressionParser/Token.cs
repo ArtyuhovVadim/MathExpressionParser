@@ -1,13 +1,11 @@
-﻿using MathExpressionParser.TokenDefinitions.Base;
+﻿namespace MathExpressionParser;
 
-namespace MathExpressionParser;
-
-public class Token : IToken
+public class Token
 {
-    public Token(string text, ITokenDefinition definition, int position)
+    public Token(string text, TokenType type, int position)
     {
         Text = text;
-        Definition = definition;
+        Type = type;
         Position = position;
     }
 
@@ -15,8 +13,8 @@ public class Token : IToken
 
     public int Position { get; }
 
-    public ITokenDefinition Definition { get; }
+    public TokenType Type { get; }
 
     public override string ToString() =>
-        $"Definition: {{{Definition}}} - Text: '{Text}' - Position: '{Position}'";
+        $$"""{ Type: "{{Type}}", Position: {{Position}}, Text: "{{Text}}" }""";
 }
