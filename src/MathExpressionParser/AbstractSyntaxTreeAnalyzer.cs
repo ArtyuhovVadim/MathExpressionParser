@@ -6,10 +6,6 @@ namespace MathExpressionParser;
 
 public class AbstractSyntaxTreeAnalyzer
 {
-    /// <summary>
-    /// Не участвует в построения АСД, нужно только для информировании об упущенном операторе
-    /// </summary>
-    private bool _isBinaryOperatorRequested;
     private int _pos;
     private List<Token> _tokens = null!;
 
@@ -17,12 +13,8 @@ public class AbstractSyntaxTreeAnalyzer
     {
         _pos = 0;
         _tokens = tokens.ToList();
-        _isBinaryOperatorRequested = false;
 
         var expression = Expression();
-
-        if (_isBinaryOperatorRequested)
-            throw CreateAnalyzerException(GetCurrent(), TokenType.Plus, TokenType.Minus, TokenType.Multiply, TokenType.Divide, TokenType.Degree, TokenType.Div, TokenType.Mod);
 
         if (!IsCurrentTokenIs(TokenType.End))
             throw CreateAnalyzerException(GetCurrent(), TokenType.End);
@@ -40,9 +32,6 @@ public class AbstractSyntaxTreeAnalyzer
         {
             var token = GetNextAndMove();
             var operandB = DivideMultiply();
-
-            _isBinaryOperatorRequested = false;
-
             operandA = new BinaryOperatorTreeNode(token, operandA, operandB);
         }
 
@@ -57,9 +46,6 @@ public class AbstractSyntaxTreeAnalyzer
         {
             var token = GetNextAndMove();
             var operandB = ModDiv();
-
-            _isBinaryOperatorRequested = false;
-
             operandA = new BinaryOperatorTreeNode(token, operandA, operandB);
         }
 
@@ -74,9 +60,6 @@ public class AbstractSyntaxTreeAnalyzer
         {
             var token = GetNextAndMove();
             var operandB = Degree();
-
-            _isBinaryOperatorRequested = false;
-
             operandA = new BinaryOperatorTreeNode(token, operandA, operandB);
         }
 
@@ -91,9 +74,6 @@ public class AbstractSyntaxTreeAnalyzer
         {
             var token = GetNextAndMove();
             var operandB = Degree();
-
-            _isBinaryOperatorRequested = false;
-
             return new BinaryOperatorTreeNode(token, operandA, operandB);
         }
 
@@ -114,24 +94,41 @@ public class AbstractSyntaxTreeAnalyzer
 
     private ExpressionTreeNode Number()
     {
-        if (IsCurrentTokenIs(TokenType.Constant))
+        if (IsCurrentTokenIs(TokenType.Function))
         {
             var token = GetNextAndMove();
+            var arguments = new List<ExpressionTreeNode>();
 
-            if (!IsCurrentTokenIs(TokenType.End) && !IsCurrentTokenIs(TokenType.RightBracket))
-                _isBinaryOperatorRequested = true;
+            while (true)
+            {
+                arguments.Add(Expression());
 
-            return new ConstantExpressionNode(token);
+                if (IsCurrentTokenIs(TokenType.Comma))
+                {
+                    MoveNext();
+                    continue;
+                }
+
+                if (IsCurrentTokenIs(TokenType.RightBracket))
+                {
+                    MoveNext();
+                    break;
+                }
+
+                throw CreateAnalyzerException(GetCurrent(), TokenType.Comma, TokenType.RightBracket);
+            }
+
+            return new FunctionExpressionNode(token, arguments);
+        }
+
+        if (IsCurrentTokenIs(TokenType.Constant))
+        {
+            return new ConstantExpressionNode(GetNextAndMove());
         }
 
         if (IsCurrentTokenIs(TokenType.Number))
         {
-            var token = GetNextAndMove();
-
-            if (!IsCurrentTokenIs(TokenType.End) && !IsCurrentTokenIs(TokenType.RightBracket))
-                _isBinaryOperatorRequested = true;
-
-            return new NumberTreeNode(token);
+            return new NumberTreeNode(GetNextAndMove());
         }
 
         if (IsCurrentTokenIs(TokenType.LeftBracket))
@@ -148,7 +145,7 @@ public class AbstractSyntaxTreeAnalyzer
             throw CreateAnalyzerException(GetCurrent(), TokenType.RightBracket);
         }
 
-        throw CreateAnalyzerException(GetCurrent(), TokenType.Number, TokenType.Constant, TokenType.LeftBracket);
+        throw CreateAnalyzerException(GetCurrent(), TokenType.Number, TokenType.Constant, TokenType.LeftBracket, TokenType.Function);
     }
 
     private bool IsCurrentTokenIs(TokenType type)

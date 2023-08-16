@@ -13,6 +13,7 @@ public enum TokenType
     Degree,
     LeftBracket,
     RightBracket,
-    //TODO: Function,
+    Function,
+    Comma,
     End
 }

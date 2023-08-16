@@ -10,6 +10,8 @@ public class Tokenizer
         { TokenType.Number, new Regex(@"\G(\d*\.\d+|\d+\.\d*|\d+)") },
         { TokenType.Mod, new Regex(@"\G\%") },
         { TokenType.Div, new Regex(@"\G\/\/") },
+        { TokenType.Function, new Regex(@"\G[a-zA-Zа-яА-Я_]+[a-zA-Zа-яА-Я_0-9]+\(") },
+        { TokenType.Comma, new Regex(@"\G\,") },
         { TokenType.Constant, new Regex(@"\G[a-zA-Zа-яА-Я]+") },
         { TokenType.Plus, new Regex(@"\G\+") },
         { TokenType.Minus, new Regex(@"\G\-") },
