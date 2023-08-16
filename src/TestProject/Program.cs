@@ -22,7 +22,7 @@ while (true)
         Console.WriteLine(tree);
         Console.WriteLine();
 
-        Console.WriteLine($"Output: {tree.Evaluate()}");
+        Console.WriteLine($"Output: {Math.Round(tree.Evaluate(), 5)}");
     }
     catch (Exception e)
     {
