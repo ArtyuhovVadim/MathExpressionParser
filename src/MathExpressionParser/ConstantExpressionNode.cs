@@ -5,7 +5,8 @@ namespace MathExpressionParser;
 
 public class ConstantExpressionNode : ExpressionTreeNode
 {
-    private readonly Dictionary<string, double> _constantsMap = new()
+    //TODO: Вынести для более удобного изменения/добавления новых элементов.
+    private static readonly Dictionary<string, double> ConstantsMap = new()
     {
         { "pi", Math.PI },
         { "e",  Math.E  },
@@ -15,7 +16,7 @@ public class ConstantExpressionNode : ExpressionTreeNode
 
     public override double Evaluate()
     {
-        if (_constantsMap.TryGetValue(Token.Text.ToLower(), out var value))
+        if (ConstantsMap.TryGetValue(Token.Text.ToLower(), out var value))
         {
             return value;
         }

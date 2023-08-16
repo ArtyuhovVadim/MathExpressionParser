@@ -16,7 +16,7 @@ public class AbstractSyntaxTreeAnalyzer
 
         var expression = Expression();
 
-        if (!IsCurrentTokenIs(TokenType.End))
+        if (!IsCurrentTokenOneOf(TokenType.End))
             throw CreateAnalyzerException(GetCurrent(), TokenType.End);
 
         return expression;
@@ -28,7 +28,7 @@ public class AbstractSyntaxTreeAnalyzer
     {
         var operandA = DivideMultiply();
 
-        while (IsCurrentTokenIs(TokenType.Plus) || IsCurrentTokenIs(TokenType.Minus))
+        while (IsCurrentTokenOneOf(TokenType.Plus, TokenType.Minus))
         {
             var token = GetNextAndMove();
             var operandB = DivideMultiply();
@@ -42,7 +42,7 @@ public class AbstractSyntaxTreeAnalyzer
     {
         var operandA = ModDiv();
 
-        while (IsCurrentTokenIs(TokenType.Divide) || IsCurrentTokenIs(TokenType.Multiply))
+        while (IsCurrentTokenOneOf(TokenType.Divide, TokenType.Multiply))
         {
             var token = GetNextAndMove();
             var operandB = ModDiv();
@@ -56,7 +56,7 @@ public class AbstractSyntaxTreeAnalyzer
     {
         var operandA = Degree();
 
-        while (IsCurrentTokenIs(TokenType.Mod) || IsCurrentTokenIs(TokenType.Div))
+        while (IsCurrentTokenOneOf(TokenType.Mod, TokenType.Div))
         {
             var token = GetNextAndMove();
             var operandB = Degree();
@@ -70,7 +70,7 @@ public class AbstractSyntaxTreeAnalyzer
     {
         var operandA = Unary();
 
-        if (IsCurrentTokenIs(TokenType.Degree))
+        if (IsCurrentTokenOneOf(TokenType.Degree))
         {
             var token = GetNextAndMove();
             var operandB = Degree();
@@ -82,7 +82,7 @@ public class AbstractSyntaxTreeAnalyzer
 
     private ExpressionTreeNode Unary()
     {
-        if (IsCurrentTokenIs(TokenType.Minus) || IsCurrentTokenIs(TokenType.Plus))
+        if (IsCurrentTokenOneOf(TokenType.Minus, TokenType.Plus))
         {
             var token = GetNextAndMove();
 
@@ -94,7 +94,7 @@ public class AbstractSyntaxTreeAnalyzer
 
     private ExpressionTreeNode Number()
     {
-        if (IsCurrentTokenIs(TokenType.Function))
+        if (IsCurrentTokenOneOf(TokenType.Function))
         {
             var token = GetNextAndMove();
             var arguments = new List<ExpressionTreeNode>();
@@ -103,13 +103,13 @@ public class AbstractSyntaxTreeAnalyzer
             {
                 arguments.Add(Expression());
 
-                if (IsCurrentTokenIs(TokenType.Comma))
+                if (IsCurrentTokenOneOf(TokenType.Comma))
                 {
                     MoveNext();
                     continue;
                 }
 
-                if (IsCurrentTokenIs(TokenType.RightBracket))
+                if (IsCurrentTokenOneOf(TokenType.RightBracket))
                 {
                     MoveNext();
                     break;
@@ -121,22 +121,22 @@ public class AbstractSyntaxTreeAnalyzer
             return new FunctionExpressionNode(token, arguments);
         }
 
-        if (IsCurrentTokenIs(TokenType.Constant))
+        if (IsCurrentTokenOneOf(TokenType.Constant))
         {
             return new ConstantExpressionNode(GetNextAndMove());
         }
 
-        if (IsCurrentTokenIs(TokenType.Number))
+        if (IsCurrentTokenOneOf(TokenType.Number))
         {
             return new NumberTreeNode(GetNextAndMove());
         }
 
-        if (IsCurrentTokenIs(TokenType.LeftBracket))
+        if (IsCurrentTokenOneOf(TokenType.LeftBracket))
         {
             MoveNext();
             var expression = Expression();
 
-            if (IsCurrentTokenIs(TokenType.RightBracket))
+            if (IsCurrentTokenOneOf(TokenType.RightBracket))
             {
                 MoveNext();
                 return expression;
@@ -148,12 +148,12 @@ public class AbstractSyntaxTreeAnalyzer
         throw CreateAnalyzerException(GetCurrent(), TokenType.Number, TokenType.Constant, TokenType.LeftBracket, TokenType.Function);
     }
 
-    private bool IsCurrentTokenIs(TokenType type)
+    private bool IsCurrentTokenOneOf(params TokenType[] type)
     {
         if (_pos >= _tokens.Count)
             throw new IndexOutOfRangeException();
 
-        return _tokens[_pos].Type == type;
+        return type.Any(x => x == _tokens[_pos].Type);
     }
 
     private void MoveNext() => _pos++;

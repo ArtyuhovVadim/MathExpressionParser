@@ -5,7 +5,7 @@ namespace MathExpressionParser;
 
 public class Tokenizer
 {
-    private readonly Dictionary<TokenType, Regex> _regexMap = new()
+    private static readonly Dictionary<TokenType, Regex> RegexMap = new()
     {
         { TokenType.Number, new Regex(@"\G(\d*\.\d+|\d+\.\d*|\d+)") },
         { TokenType.Mod, new Regex(@"\G\%") },
@@ -37,7 +37,7 @@ public class Tokenizer
                 continue;
             }
 
-            foreach (var (type, regex) in _regexMap)
+            foreach (var (type, regex) in RegexMap)
             {
                 var match = regex.Match(input, position);
 
