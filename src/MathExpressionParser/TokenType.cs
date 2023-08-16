@@ -2,8 +2,8 @@
 
 public enum TokenType
 {
-    Space,
     Number,
+    //TODO: Constant,
     Plus,
     Minus,
     Divide,

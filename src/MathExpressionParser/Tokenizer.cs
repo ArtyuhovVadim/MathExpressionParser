@@ -7,8 +7,7 @@ public class Tokenizer
 {
     private readonly Dictionary<TokenType, Regex> _regexMap = new()
     {
-        { TokenType.Space, new Regex(@"\G\s") },
-        { TokenType.Number, new Regex(@"\G[+-]?(\d*\.\d+|\d+\.\d*|\d+)") },
+        { TokenType.Number, new Regex(@"\G(\d*\.\d+|\d+\.\d*|\d+)") },
         { TokenType.Plus, new Regex(@"\G\+") },
         { TokenType.Minus, new Regex(@"\G\-") },
         { TokenType.Divide, new Regex(@"\G\/") },
@@ -27,6 +26,12 @@ public class Tokenizer
         {
             var matched = false;
 
+            if (char.IsWhiteSpace(input[position]))
+            {
+                position++;
+                continue;
+            }
+
             foreach (var (type, regex) in _regexMap)
             {
                 var match = regex.Match(input, position);
@@ -37,11 +42,12 @@ public class Tokenizer
 
                 position += match.Length;
                 matched = true;
+
                 break;
             }
 
             if (!matched)
-                throw new TokenizeException(position, $"Undefined token at {position} position.");
+                throw new TokenizeException(position, $"Undefined token type at position {position}.");
         }
 
         tokens.Add(new Token(string.Empty, TokenType.End, -1));
