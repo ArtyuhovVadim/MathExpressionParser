@@ -1,31 +1,31 @@
 ﻿using MathExpressionParser;
 
-var _tokenizer = new Tokenizer();
-var _analyzer = new AbstractSyntaxTreeAnalyzer();
-var _calculator = new TreeCalculator();
-
-var bigInput = "(((2 + 2) * 2) / 4 + 0.5) * 2 ^ 2 - 10";
-var smallInput = "(2 + 2) * 2";
-
-try
+while (true)
 {
-    var input = smallInput;
-
-    Console.WriteLine($"Input: {input}\n");
-
-    Console.WriteLine("Tokens:");
-    var tokens = _tokenizer.Tokenize(input).Where(x => x.Type != TokenType.Space);
-    foreach (var token in tokens)
+    try
     {
-        Console.WriteLine(token);
-    }
-    Console.WriteLine();
-    Console.WriteLine("AbstractSyntaxTreeAnalyzer is not implemented.\n");
-    Console.WriteLine("TreeCalculator is not implemented.\n");
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+        var tokenizer = new Tokenizer();
+        var analyzer = new AbstractSyntaxTreeAnalyzer();
+        var input = Console.ReadLine()!;
 
-Console.ReadKey();
+        Console.Clear();
+        Console.WriteLine($"Input: {input}\n");
+        Console.WriteLine("Tokens:");
+
+        var tokens = tokenizer.Tokenize(input);
+        Console.WriteLine(string.Join('\n', tokens));
+        Console.WriteLine();
+        Console.WriteLine("AbstractSyntaxTreeAnalyzer:");
+
+        var tree = analyzer.Analyze(tokens);
+
+        Console.WriteLine(tree);
+        Console.WriteLine();
+
+        Console.WriteLine($"Output: {tree.Evaluate()}");
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+}
