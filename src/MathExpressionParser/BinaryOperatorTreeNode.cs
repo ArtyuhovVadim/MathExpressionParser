@@ -20,6 +20,8 @@ public class BinaryOperatorTreeNode : ExpressionTreeNode
         TokenType.Plus => OperandA.Evaluate() + OperandB.Evaluate(),
         TokenType.Multiply => OperandA.Evaluate() * OperandB.Evaluate(),
         TokenType.Divide => OperandA.Evaluate() / OperandB.Evaluate(),
+        TokenType.Mod => OperandA.Evaluate() % OperandB.Evaluate(),
+        TokenType.Div => (long)OperandA.Evaluate() / (long)OperandB.Evaluate(),
         TokenType.Degree => Math.Pow(OperandA.Evaluate(), OperandB.Evaluate()),
         _ => throw new ArgumentOutOfRangeException()
     };

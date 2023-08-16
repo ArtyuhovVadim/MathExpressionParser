@@ -22,7 +22,7 @@ public class AbstractSyntaxTreeAnalyzer
         var expression = Expression();
 
         if (_isBinaryOperatorRequested)
-            throw CreateAnalyzerException(GetCurrent(), TokenType.Plus, TokenType.Minus, TokenType.Multiply, TokenType.Divide, TokenType.Degree);
+            throw CreateAnalyzerException(GetCurrent(), TokenType.Plus, TokenType.Minus, TokenType.Multiply, TokenType.Divide, TokenType.Degree, TokenType.Div, TokenType.Mod);
 
         if (!IsCurrentTokenIs(TokenType.End))
             throw CreateAnalyzerException(GetCurrent(), TokenType.End);
@@ -51,9 +51,26 @@ public class AbstractSyntaxTreeAnalyzer
 
     private ExpressionTreeNode DivideMultiply()
     {
-        var operandA = Degree();
+        var operandA = ModDiv();
 
         while (IsCurrentTokenIs(TokenType.Divide) || IsCurrentTokenIs(TokenType.Multiply))
+        {
+            var token = GetNextAndMove();
+            var operandB = ModDiv();
+
+            _isBinaryOperatorRequested = false;
+
+            operandA = new BinaryOperatorTreeNode(token, operandA, operandB);
+        }
+
+        return operandA;
+    }
+
+    private ExpressionTreeNode ModDiv()
+    {
+        var operandA = Degree();
+
+        while (IsCurrentTokenIs(TokenType.Mod) || IsCurrentTokenIs(TokenType.Div))
         {
             var token = GetNextAndMove();
             var operandB = Degree();
