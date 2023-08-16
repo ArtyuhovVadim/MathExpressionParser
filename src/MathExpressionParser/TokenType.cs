@@ -3,10 +3,11 @@
 public enum TokenType
 {
     Number,
-    //TODO: Constant,
+    Constant,
     Plus,
     Minus,
     Divide,
+    //TODO: ModDivide,
     Multiply,
     Degree,
     LeftBracket,

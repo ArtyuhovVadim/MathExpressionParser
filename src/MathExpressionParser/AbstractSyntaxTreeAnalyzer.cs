@@ -97,6 +97,16 @@ public class AbstractSyntaxTreeAnalyzer
 
     private ExpressionTreeNode Number()
     {
+        if (IsCurrentTokenIs(TokenType.Constant))
+        {
+            var token = GetNextAndMove();
+
+            if (!IsCurrentTokenIs(TokenType.End) && !IsCurrentTokenIs(TokenType.RightBracket))
+                _isBinaryOperatorRequested = true;
+
+            return new ConstantExpressionNode(token);
+        }
+
         if (IsCurrentTokenIs(TokenType.Number))
         {
             var token = GetNextAndMove();
@@ -121,7 +131,7 @@ public class AbstractSyntaxTreeAnalyzer
             throw CreateAnalyzerException(GetCurrent(), TokenType.RightBracket);
         }
 
-        throw CreateAnalyzerException(GetCurrent(), TokenType.Number, TokenType.LeftBracket);
+        throw CreateAnalyzerException(GetCurrent(), TokenType.Number, TokenType.Constant, TokenType.LeftBracket);
     }
 
     private bool IsCurrentTokenIs(TokenType type)
@@ -151,5 +161,5 @@ public class AbstractSyntaxTreeAnalyzer
     }
 
     private AnalyzerException CreateAnalyzerException(Token? unexpectedToken, params TokenType[] expectedTypes) =>
-        throw new AnalyzerException(_pos, expectedTypes, unexpectedToken, $"Unexpected token type ({unexpectedToken?.Type}) at position {_pos}, expected types is ({string.Join(',', expectedTypes)}).");
+        throw new AnalyzerException(_pos, expectedTypes, unexpectedToken, $"Unexpected token type ({unexpectedToken?.Type}) at position {_pos}, expected types is ({string.Join(", ", expectedTypes)}).");
 }
