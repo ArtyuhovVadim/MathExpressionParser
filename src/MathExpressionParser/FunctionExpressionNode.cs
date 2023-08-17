@@ -27,8 +27,9 @@ public class FunctionExpressionNode : ExpressionTreeNode
         { "sign",   new FunctionDefinition("sign",   1,  args => Math.Sign(args[0]))                },
         { "d2r",    new FunctionDefinition("d2r",    1,  args => args[0] * Math.PI / 180d)          },
         { "r2d",    new FunctionDefinition("r2d",    1,  args => args[0] * 180d / Math.PI)          },
-        { "max",    new FunctionDefinition("max", argsCount => argsCount >= 1, args => args.Max()) },
-        { "min",    new FunctionDefinition("min", argsCount => argsCount >= 1, args => args.Min()) },
+        { "max",    new FunctionDefinition("max", argsCount => argsCount > 1, args => args.Max())     },
+        { "min",    new FunctionDefinition("min", argsCount => argsCount > 1, args => args.Min())     },
+        { "avg",    new FunctionDefinition("avg", argsCount => argsCount > 1, args => args.Average()) },
     };
 
     private readonly List<ExpressionTreeNode> _arguments;
