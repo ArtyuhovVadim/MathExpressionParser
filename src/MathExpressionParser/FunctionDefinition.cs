@@ -21,8 +21,15 @@ public class FunctionDefinition
 
     public double Evaluate(List<ExpressionTreeNode> args)
     {
-        if (args.Count != ArgumentsCount)
-            throw new ArgumentException($"Too many or too few arguments for '{Name}' function");
+        if (ArgumentsCount == -1 && args.Count == 0)
+        {
+            throw new ArgumentException($"The number of arguments for the '{Name}' function must be greater than zero.");
+        }
+        
+        if (ArgumentsCount != -1 && args.Count != ArgumentsCount)
+        {
+            throw new ArgumentException($"Too many or too few arguments for the '{Name}' function.");
+        }
 
         return _func(args.Select(x => x.Evaluate()).ToArray());
     }
