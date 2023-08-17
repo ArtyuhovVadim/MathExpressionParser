@@ -7,7 +7,7 @@ public class Tokenizer
 {
     private static readonly Dictionary<TokenType, Regex> RegexMap = new()
     {
-        { TokenType.Number, new Regex(@"\G(\d*\.\d+|\d+\.\d*|\d+)") },
+        { TokenType.Number, new Regex(@"\G((\d*\.\d+e\d+|\d+\.\d*e\d+|\d+e\d+)|(\d*\.\d+|\d+\.\d*|\d+))") },
         { TokenType.Mod, new Regex(@"\G\%") },
         { TokenType.Div, new Regex(@"\G\/\/") },
         { TokenType.Function, new Regex(@"\G[a-zA-Zа-яА-Я_]+[a-zA-Zа-яА-Я_0-9]+\(") },
