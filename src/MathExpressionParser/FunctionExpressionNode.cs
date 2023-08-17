@@ -22,9 +22,9 @@ public class FunctionExpressionNode : ExpressionTreeNode
         { "lg",   new FunctionDefinition("lg",   1,  args => Math.Log10(args[0]))        },
         { "ln",   new FunctionDefinition("ln",   1,  args => Math.Log(args[0]))          },
         { "exp",  new FunctionDefinition("exp",  1,  args => Math.Exp(args[0]))          },
-        { "max",  new FunctionDefinition("max",  -1, args => args.Max())                 },
-        { "min",  new FunctionDefinition("min",  -1, args => args.Min())                 },
         { "sign", new FunctionDefinition("sign", 1,  args => Math.Sign(args[0]))         },
+        { "max",  new FunctionDefinition("max", argsCount => argsCount >= 1, args => args.Max()) },
+        { "min",  new FunctionDefinition("min", argsCount => argsCount >= 1, args => args.Min()) },
     };
 
     private readonly List<ExpressionTreeNode> _arguments;
