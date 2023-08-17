@@ -9,7 +9,7 @@ public class FunctionExpressionNode : ExpressionTreeNode
     //TODO: Вынести для более удобного изменения/добавления новых элементов.
     private static readonly Dictionary<string, FunctionDefinition> FunctionsMap = new()
     {
-        { "sin",    new FunctionDefinition("sin",  1,  args => Math.Sin(args[0]))                   },
+        { "sin",    new FunctionDefinition("sin",    1,  args => Math.Sin(args[0]))                   },
         { "arcsin", new FunctionDefinition("arcsin", 1,  args => Math.Asin(args[0]))                },
         { "cos",    new FunctionDefinition("cos",    1,  args => Math.Cos(args[0]))                 },
         { "arccos", new FunctionDefinition("arccos", 1,  args => Math.Acos(args[0]))                },
