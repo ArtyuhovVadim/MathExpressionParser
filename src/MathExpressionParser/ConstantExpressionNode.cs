@@ -10,6 +10,8 @@ public class ConstantExpressionNode : ExpressionTreeNode
     {
         { "pi", Math.PI },
         { "e",  Math.E  },
+        { "max",  double.MaxValue  },
+        { "min",  double.MinValue  },
     };
 
     public ConstantExpressionNode(Token token) : base(token) { }
