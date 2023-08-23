@@ -102,6 +102,13 @@ public class AbstractSyntaxTreeAnalyzer
             var token = GetNextAndMove();
             var arguments = new List<ExpressionTreeNode>();
 
+            // Handle function with zero arguments
+            if (IsCurrentTokenOneOf(TokenType.RightBracket))
+            {
+                MoveNext();
+                return new FunctionTreeNode(token, arguments);
+            }
+
             while (true)
             {
                 arguments.Add(Expression());
