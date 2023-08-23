@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<Title>MathExpressionParser</Title>
+		<Authors>$(Authors)</Authors>
+		<Description>Library for parsing mathematical expressions.</Description>
+		<PackageProjectUrl>https://github.com/ArtyuhovVadim/MathExpressionParser</PackageProjectUrl>
+		<Copyright>ArtyuhovVadim</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/ArtyuhovVadim/MathExpressionParser</RepositoryUrl>
+		<PackageTags>Math; Parse; Expression;</PackageTags>
+		<PackageReleaseNotes>First publication</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<SignAssembly>False</SignAssembly>
+		<DelaySign>False</DelaySign>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+</Project>
