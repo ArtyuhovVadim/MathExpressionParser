@@ -1,4 +1,6 @@
-﻿namespace MathExpressionParser;
+﻿using MathExpressionParser.ExpressionNodes.Base;
+
+namespace MathExpressionParser.ExpressionNodes;
 
 public class UnaryOperatorTreeNode : ExpressionTreeNode
 {

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using MathExpressionParser.ExpressionNodes.Base;
 
-namespace MathExpressionParser;
+namespace MathExpressionParser.ExpressionNodes;
 
-public class FunctionExpressionNode : ExpressionTreeNode
+public class FunctionTreeNode : ExpressionTreeNode
 {
     private readonly List<ExpressionTreeNode> _arguments;
 
-    public FunctionExpressionNode(Token token, List<ExpressionTreeNode> arguments) : base(token) => _arguments = arguments;
+    public FunctionTreeNode(Token token, List<ExpressionTreeNode> arguments) : base(token) => _arguments = arguments;
 
     public IReadOnlyList<ExpressionTreeNode> Arguments => _arguments;
 

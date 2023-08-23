@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathExpressionParser;
+namespace MathExpressionParser.Exceptions;
 
 public class TokenizeException : Exception
 {

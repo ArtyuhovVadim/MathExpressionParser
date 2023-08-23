@@ -1,4 +1,4 @@
-﻿namespace MathExpressionParser;
+﻿namespace MathExpressionParser.ExpressionNodes.Base;
 
 public abstract class ExpressionTreeNode
 {

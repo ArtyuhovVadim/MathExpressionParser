@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathExpressionParser.ExpressionNodes;
 
 namespace MathExpressionParser;
 
@@ -81,7 +82,7 @@ public class Evaluator
         _ => throw new ArgumentOutOfRangeException()
     };
 
-    public double Evaluate(FunctionExpressionNode node)
+    public double Evaluate(FunctionTreeNode node)
     {
         var functionName = node.Token.Text.ToLower().TrimEnd('(');
 
@@ -93,7 +94,7 @@ public class Evaluator
         throw new KeyNotFoundException($"Can not evaluate '{functionName}' function.");
     }
 
-    public double Evaluate(ConstantExpressionNode node)
+    public double Evaluate(ConstantTreeNode node)
     {
         if (ConstantsMap.TryGetValue(node.Token.Text.ToLower(), out var value))
         {

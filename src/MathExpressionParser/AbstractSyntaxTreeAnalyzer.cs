@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathExpressionParser.Exceptions;
+using MathExpressionParser.ExpressionNodes;
+using MathExpressionParser.ExpressionNodes.Base;
 
 namespace MathExpressionParser;
 
@@ -118,12 +121,12 @@ public class AbstractSyntaxTreeAnalyzer
                 throw CreateAnalyzerException(GetCurrent(), TokenType.Comma, TokenType.RightBracket);
             }
 
-            return new FunctionExpressionNode(token, arguments);
+            return new FunctionTreeNode(token, arguments);
         }
 
         if (IsCurrentTokenOneOf(TokenType.Constant))
         {
-            return new ConstantExpressionNode(GetNextAndMove());
+            return new ConstantTreeNode(GetNextAndMove());
         }
 
         if (IsCurrentTokenOneOf(TokenType.Number))
