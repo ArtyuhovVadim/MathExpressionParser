@@ -6,5 +6,5 @@ public abstract class ExpressionTreeNode
 
     protected ExpressionTreeNode(Token token) => Token = token;
 
-    public abstract double Evaluate();
+    public abstract double Evaluate(Evaluator evaluator);
 }

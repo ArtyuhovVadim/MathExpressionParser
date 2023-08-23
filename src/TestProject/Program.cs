@@ -6,6 +6,7 @@ while (true)
     {
         var tokenizer = new Tokenizer();
         var analyzer = new AbstractSyntaxTreeAnalyzer();
+        var evaluator = new Evaluator();
         var input = Console.ReadLine()!;
 
         Console.Clear();
@@ -22,7 +23,7 @@ while (true)
         Console.WriteLine(tree);
         Console.WriteLine();
 
-        Console.WriteLine($"Output: {Math.Round(tree.Evaluate(), 5)}");
+        Console.WriteLine($"Output: {Math.Round(tree.Evaluate(evaluator), 5)}");
     }
     catch (Exception e)
     {

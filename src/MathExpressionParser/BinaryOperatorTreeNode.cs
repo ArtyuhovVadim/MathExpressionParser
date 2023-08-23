@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MathExpressionParser;
+﻿namespace MathExpressionParser;
 
 public class BinaryOperatorTreeNode : ExpressionTreeNode
 {
@@ -14,17 +12,7 @@ public class BinaryOperatorTreeNode : ExpressionTreeNode
         OperandB = operandB;
     }
 
-    public override double Evaluate() => Token.Type switch
-    {
-        TokenType.Minus => OperandA.Evaluate() - OperandB.Evaluate(),
-        TokenType.Plus => OperandA.Evaluate() + OperandB.Evaluate(),
-        TokenType.Multiply => OperandA.Evaluate() * OperandB.Evaluate(),
-        TokenType.Divide => OperandA.Evaluate() / OperandB.Evaluate(),
-        TokenType.Mod => OperandA.Evaluate() % OperandB.Evaluate(),
-        TokenType.Div => (long)OperandA.Evaluate() / (long)OperandB.Evaluate(),
-        TokenType.Degree => Math.Pow(OperandA.Evaluate(), OperandB.Evaluate()),
-        _ => throw new ArgumentOutOfRangeException()
-    };
+    public override double Evaluate(Evaluator evaluator) => evaluator.Evaluate(this);
 
     public override string ToString() => $"[{OperandA} {Token.Text} {OperandB}]";
 }

@@ -25,11 +25,11 @@ public class FunctionDefinition
 
     public string Name { get; }
 
-    public double Evaluate(List<ExpressionTreeNode> args)
+    public double Evaluate(IReadOnlyList<ExpressionTreeNode> args, Evaluator evaluator)
     {
         if(!_argsCountValidator(args.Count))
             throw new ArgumentException($"Invalid arguments count for the '{Name}' function.");
 
-        return _func(args.Select(x => x.Evaluate()).ToArray());
+        return _func(args.Select(x => x.Evaluate(evaluator)).ToArray());
     }
 }
